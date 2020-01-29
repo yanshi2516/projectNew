@@ -2,6 +2,7 @@ package com.example.projectnews.newstories
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.projectnews.R
 import kotlinx.serialization.ImplicitReflectionSerializer
 import kotlinx.serialization.UnstableDefault
-
+import java.io.Serializable
 
 
 class FragmentNews(private val storiesType: String) : Fragment() {
@@ -43,12 +44,10 @@ class FragmentNews(private val storiesType: String) : Fragment() {
         topRecyclerView = rootView.findViewById(R.id.topRecyclerView) as RecyclerView
         viewManager = LinearLayoutManager(context)
         newsAdapter = NewsAdapter(object : RecyclerViewClickListener{
-            override fun onClick(view: View, position: Int) {
-                Toast.makeText(view.context,"View "+view.toString(),Toast.LENGTH_SHORT).show()
-                Toast.makeText(view.context,"Position "+position,Toast.LENGTH_SHORT).show()
-                val intent = Intent(view.context,NewsDataActivity::class.java)
-                intent.putExtra("position",position)
-                startActivity(intent)
+            override fun onClick(newsDetailData : News) {
+                val intent = Intent(context,NewsDataActivity::class.java)
+                intent.putExtra("newsDetailsData",newsDetailData)
+                context?.startActivity(intent)
             }
         })
         topRecyclerView.adapter = newsAdapter
@@ -78,10 +77,6 @@ class FragmentNews(private val storiesType: String) : Fragment() {
 
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
 
 
     companion object{

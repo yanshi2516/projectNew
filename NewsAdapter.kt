@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 
 interface RecyclerViewClickListener
 {
-    fun onClick(view : View, position : Int)
+    fun onClick(newsDetailData : News)
 }
 
 class NewsAdapter(mListener: RecyclerViewClickListener) : RecyclerView.Adapter<NewsAdapter.MyViewHolder>()  {
@@ -40,11 +40,11 @@ class NewsAdapter(mListener: RecyclerViewClickListener) : RecyclerView.Adapter<N
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.apply {
             textTitle.text = newsData[position].title
-            textBy.text = newsData[position].by
-            textTime.text = newsData[position].time.toString()
+            textBy.text = "By ${newsData[position].by}"
+            textTime.text = "| ${newsData[position].time.toString()}"
         }
         holder.cardView.setOnClickListener {
-            holder.myListener.onClick(holder.itemView,position)
+            holder.myListener.onClick(newsData[position])
         }
     }
     override fun getItemCount() = newsData.size
